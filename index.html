@@ -5,39 +5,170 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JobStart Germany</title>
 <style>
-body{font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:15px;background:#f5f5f5}
-h1{color:#2c3e50;text-align:center}
-.btn{display:inline-block;margin:5px;padding:10px 15px;background:#3498db;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px}
-.btn:hover{background:#2980b9}
-.btn.active{background:#e74c3c}
-.job{background:white;padding:15px;margin:10px 0;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
-.filters{text-align:center;margin:15px 0}
-#results{margin-top:20px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333}
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px;text-align:center;color:white}
+header h1{font-size:24px;margin-bottom:5px}
+header p{font-size:13px;opacity:0.8}
+nav{display:flex;background:#16213e;overflow-x:auto}
+nav button{flex:1;min-width:80px;padding:12px 8px;background:none;border:none;color:#aaa;font-size:13px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:white;border-bottom:3px solid #e94560}
+.page{display:none;padding:15px}
+.page.active{display:block}
+.filters{margin-bottom:15px}
+.filters h3{font-size:13px;color:#666;margin-bottom:8px;text-transform:uppercase}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.filter-btn{padding:7px 12px;border:2px solid #ddd;background:white;border-radius:20px;font-size:13px;cursor:pointer;transition:all 0.2s}
+.filter-btn.active{background:#e94560;border-color:#e94560;color:white}
+.job-card{background:white;border-radius:12px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-left:4px solid #e94560}
+.job-card h3{font-size:16px;margin-bottom:5px}
+.job-card .company{color:#666;font-size:13px;margin-bottom:8px}
+.job-card .tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{background:#f0f4f8;padding:3px 8px;border-radius:10px;font-size:12px;color:#555}
+.tag.type{background:#fff0f3;color:#e94560}
+.tag.city{background:#f0f8ff;color:#0066cc}
+.job-card .email{margin-top:10px;font-size:13px;color:#0066cc}
+.no-jobs{text-align:center;padding:40px;color:#999}
+.about-box{background:white;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.about-box h2{color:#1a1a2e;margin-bottom:10px}
+.about-box p{color:#555;line-height:1.6;font-size:14px;margin-bottom:8px}
+.contact-btn{display:block;text-align:center;background:#e94560;color:white;padding:12px;border-radius:10px;text-decoration:none;margin-top:10px;font-size:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.stat{background:white;border-radius:12px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.stat h2{font-size:28px;color:#e94560}
+.stat p{font-size:12px;color:#666}
 </style>
 </head>
 <body>
+<header>
 <h1>🇩🇪 JobStart Germany</h1>
-<div class="filters">
-<button class="btn" onclick="filter('ausbildung')">🎓 Ausbildung</button>
-<button class="btn" onclick="filter('vollzeit')">💼 Vollzeit</button>
-<button class="btn" onclick="filter('teilzeit')">⏰ Teilzeit</button>
-<button class="btn" onclick="filter('minijob')">💰 Minijob</button>
+<p>Поиск работы и Ausbildung в Германии</p>
+</header>
+<nav>
+<button class="active" onclick="showPage('jobs',this)">🔍 Вакансии</button>
+<button onclick="showPage('ausbildung',this)">🎓 Ausbildung</button>
+<button onclick="showPage('about',this)">ℹ️ О нас</button>
+<button onclick="showPage('contact',this)">📩 Контакт</button>
+</nav>
+
+<!-- ВАКАНСИИ -->
+<div id="jobs" class="page active">
+<div class="filters" style="padding:15px 15px 0">
+<h3>Тип работы</h3>
+<div class="filter-row" id="typeFilters">
+<button class="filter-btn active" onclick="setType('all',this)">Все</button>
+<button class="filter-btn" onclick="setType('vollzeit',this)">💼 Vollzeit</button>
+<button class="filter-btn" onclick="setType('teilzeit',this)">⏰ Teilzeit</button>
+<button class="filter-btn" onclick="setType('minijob',this)">💰 Minijob</button>
 </div>
-<div class="filters">
-<button class="btn" onclick="filterCity('berlin')">Berlin</button>
-<button class="btn" onclick="filterCity('hamburg')">Hamburg</button>
-<button class="btn" onclick="filterCity('münchen')">München</button>
-<button class="btn" onclick="filterCity('köln')">Köln</button>
-<button class="btn" onclick="filterCity('frankfurt')">Frankfurt</button>
+<h3>Город</h3>
+<div class="filter-row" id="cityFilters">
+<button class="filter-btn active" onclick="setCity('all',this)">Все</button>
+<button class="filter-btn" onclick="setCity('berlin',this)">Berlin</button>
+<button class="filter-btn" onclick="setCity('hamburg',this)">Hamburg</button>
+<button class="filter-btn" onclick="setCity('münchen',this)">München</button>
+<button class="filter-btn" onclick="setCity('köln',this)">Köln</button>
+<button class="filter-btn" onclick="setCity('frankfurt',this)">Frankfurt</button>
 </div>
-<div id="results"></div>
+</div>
+<div id="jobList" style="padding:0 15px 15px"></div>
+</div>
+
+<!-- AUSBILDUNG -->
+<div id="ausbildung" class="page">
+<div class="filters" style="padding:15px 15px 0">
+<h3>Город</h3>
+<div class="filter-row" id="ausCity">
+<button class="filter-btn active" onclick="setAusCity('all',this)">Все</button>
+<button class="filter-btn" onclick="setAusCity('berlin',this)">Berlin</button>
+<button class="filter-btn" onclick="setAusCity('hamburg',this)">Hamburg</button>
+<button class="filter-btn" onclick="setAusCity('münchen',this)">München</button>
+<button class="filter-btn" onclick="setAusCity('köln',this)">Köln</button>
+<button class="filter-btn" onclick="setAusCity('frankfurt',this)">Frankfurt</button>
+</div>
+</div>
+<div id="ausList" style="padding:0 15px 15px"></div>
+</div>
+
+<!-- О НАС -->
+<div id="about" class="page">
+<div style="padding:15px">
+<div class="stats">
+<div class="stat"><h2>20+</h2><p>Вакансий</p></div>
+<div class="stat"><h2>5</h2><p>Городов</p></div>
+<div class="stat"><h2>4</h2><p>Языка</p></div>
+<div class="stat"><h2>🆓</h2><p>Бесплатно</p></div>
+</div>
+<div class="about-box">
+<h2>О проекте</h2>
+<p>JobStart Germany помогает русскоязычным и украиноязычным людям найти работу и Ausbildung в Германии.</p>
+<p>Мы собираем актуальные вакансии по всем крупным городам Германии.</p>
+</div>
+<div class="about-box">
+<h2>Что мы предлагаем</h2>
+<p>🎓 Ausbildung — обучение с зарплатой</p>
+<p>💼 Vollzeit — полная занятость</p>
+<p>⏰ Teilzeit — частичная занятость</p>
+<p>💰 Minijob — подработка до 538€</p>
+</div>
+</div>
+</div>
+
+<!-- КОНТАКТ -->
+<div id="contact" class="page">
+<div style="padding:15px">
+<div class="about-box">
+<h2>📩 Связаться с нами</h2>
+<p>Есть вакансия? Хотите разместить объявление? Напишите нам!</p>
+<a href="https://t.me/jobstartgermany_bot" class="contact-btn">💬 Написать в Telegram</a>
+</div>
+<div class="about-box">
+<h2>📢 Наш бот</h2>
+<p>Ищите работу прямо в Telegram через нашего бота @jobstartgermany_bot</p>
+<a href="https://t.me/jobstartgermany_bot" class="contact-btn">🤖 Открыть бота</a>
+</div>
+</div>
+</div>
+
 <script>
 const jobs=[
-{type:'ausbildung',city:'berlin',title:'Kfz-Mechatroniker',company:'Berlin Auto GmbH',email:'jobs@berlinauto.de'},
-{type:'ausbildung',city:'hamburg',title:'Koch',company:'Restaurant Nord',email:'nord@restaurant.de'},
-{type:'vollzeit',city:'berlin',title:'Bauarbeiter',company:'BauBerlin',email:'bau@berlin.de'},
-{type:'vollzeit',city:'münchen',title:'Kellner',company:'Hotel Muc',email:'hotel@muc.de'},
+{type:'vollzeit',city:'berlin',title:'Bauarbeiter',company:'BauBerlin GmbH',email:'bau@berlin.de'},
+{type:'vollzeit',city:'hamburg',title:'LKW-Fahrer',company:'Hafen Hamburg',email:'fahrer@hafen.de'},
+{type:'vollzeit',city:'münchen',title:'Kellner',company:'Hotel München',email:'hotel@muc.de'},
+{type:'vollzeit',city:'köln',title:'Elektriker',company:'E-Köln GmbH',email:'elektro@koeln.de'},
+{type:'vollzeit',city:'frankfurt',title:'Buchhalter',company:'Finance FF',email:'buch@ff.de'},
 {type:'teilzeit',city:'berlin',title:'Kassierer',company:'Supermarkt Berlin',email:'jobs@supermarkt.de'},
+{type:'teilzeit',city:'hamburg',title:'Bibliothekshelfer',company:'HH Bücherei',email:'buech@hh.de'},
+{type:'teilzeit',city:'münchen',title:'Reinigungskraft',company:'CleanMuc',email:'clean@muc.de'},
 {type:'teilzeit',city:'köln',title:'Barista',company:'Café Köln',email:'cafe@koeln.de'},
+{type:'teilzeit',city:'frankfurt',title:'Postbote',company:'Post FF',email:'post@ff.de'},
 {type:'minijob',city:'berlin',title:'Gartenhelfer',company:'GartenBerlin',email:'garten@berlin.de'},
-{type:'minijob',city:'frankfurt',title:'Wäscheservice',company:'W​​​​​​​​​​​​​​​​
+{type:'minijob',city:'hamburg',title:'Hundesitter',company:'PetHH',email:'pet@hh.de'},
+{type:'minijob',city:'münchen',title:'Fahrradkurier',company:'BikeM',email:'bike@muc.de'},
+{type:'minijob',city:'köln',title:'Zeitungsträger',company:'PressKöln',email:'press@koeln.de'},
+{type:'minijob',city:'frankfurt',title:'Wäscheservice',company:'WashFF',email:'wash@ff.de'},
+];
+const ausbildung=[
+{city:'berlin',title:'Kfz-Mechatroniker',company:'Berlin Auto GmbH',email:'jobs@berlinauto.de'},
+{city:'hamburg',title:'Koch',company:'Restaurant Nord',email:'nord@restaurant.de'},
+{city:'münchen',title:'IT-Kaufmann',company:'TechMuc GmbH',email:'hr@techmuc.de'},
+{city:'köln',title:'Pflegefachmann',company:'Klinik Köln',email:'jobs@klinikkoeln.de'},
+{city:'frankfurt',title:'Logistiker',company:'FF Logistik',email:'info@fflogistik.de'},
+];
+let activeType='all',activeCity='all',activeAusCity='all';
+function renderJobs(){
+const list=jobs.filter(j=>(activeType==='all'||j.type===activeType)&&(activeCity==='all'||j.city===activeCity));
+document.getElementById('jobList').innerHTML=list.length?list.map(j=>`<div class="job-card"><h3>${j.title}</h3><div class="company">🏢 ${j.company}</div><div class="tags"><span class="tag type">${j.type}</span><span class="tag city">📍 ${j.city}</span></div><div class="email">✉️ ${j.email}</div></div>`).join(''):'<div class="no-jobs">😕 Вакансий не найдено</div>';
+}
+function renderAus(){
+const list=ausbildung.filter(j=>activeAusCity==='all'||j.city===activeAusCity);
+document.getElementById('ausList').innerHTML=list.length?list.map(j=>`<div class="job-card"><h3>🎓 ${j.title}</h3><div class="company">🏢 ${j.company}</div><div class="tags"><span class="tag city">📍 ${j.city}</span></div><div class="email">✉️ ${j.email}</div></div>`).join(''):'<div class="no-jobs">😕 Вакансий не найдено</div>';
+}
+function setType(t,btn){activeType=t;document.querySelectorAll('#typeFilters .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderJobs();}
+function setCity(c,btn){activeCity=c;document.querySelectorAll('#cityFilters .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderJobs();}
+function setAusCity(c,btn){activeAusCity=c;document.querySelectorAll('#ausCity .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderAus();}
+function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+renderJobs();renderAus();
+</script>
+</body>
+</html>
