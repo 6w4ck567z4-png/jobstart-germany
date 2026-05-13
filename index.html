@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobStart Germany</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:15px;background:#f5f5f5}
+h1{color:#2c3e50;text-align:center}
+.btn{display:inline-block;margin:5px;padding:10px 15px;background:#3498db;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px}
+.btn:hover{background:#2980b9}
+.btn.active{background:#e74c3c}
+.job{background:white;padding:15px;margin:10px 0;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.filters{text-align:center;margin:15px 0}
+#results{margin-top:20px}
+</style>
+</head>
+<body>
+<h1>🇩🇪 JobStart Germany</h1>
+<div class="filters">
+<button class="btn" onclick="filter('ausbildung')">🎓 Ausbildung</button>
+<button class="btn" onclick="filter('vollzeit')">💼 Vollzeit</button>
+<button class="btn" onclick="filter('teilzeit')">⏰ Teilzeit</button>
+<button class="btn" onclick="filter('minijob')">💰 Minijob</button>
+</div>
+<div class="filters">
+<button class="btn" onclick="filterCity('berlin')">Berlin</button>
+<button class="btn" onclick="filterCity('hamburg')">Hamburg</button>
+<button class="btn" onclick="filterCity('münchen')">München</button>
+<button class="btn" onclick="filterCity('köln')">Köln</button>
+<button class="btn" onclick="filterCity('frankfurt')">Frankfurt</button>
+</div>
+<div id="results"></div>
+<script>
+const jobs=[
+{type:'ausbildung',city:'berlin',title:'Kfz-Mechatroniker',company:'Berlin Auto GmbH',email:'jobs@berlinauto.de'},
+{type:'ausbildung',city:'hamburg',title:'Koch',company:'Restaurant Nord',email:'nord@restaurant.de'},
+{type:'vollzeit',city:'berlin',title:'Bauarbeiter',company:'BauBerlin',email:'bau@berlin.de'},
+{type:'vollzeit',city:'münchen',title:'Kellner',company:'Hotel Muc',email:'hotel@muc.de'},
+{type:'teilzeit',city:'berlin',title:'Kassierer',company:'Supermarkt Berlin',email:'jobs@supermarkt.de'},
+{type:'teilzeit',city:'köln',title:'Barista',company:'Café Köln',email:'cafe@koeln.de'},
+{type:'minijob',city:'berlin',title:'Gartenhelfer',company:'GartenBerlin',email:'garten@berlin.de'},
+{type:'minijob',city:'frankfurt',title:'Wäscheservice',company:'W​​​​​​​​​​​​​​​​
